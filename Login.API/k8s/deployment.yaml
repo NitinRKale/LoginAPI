@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: loginapi-deployment
+  namespace: loginapi
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: loginapi
+
+  template:
+    metadata:
+      labels:
+        app: loginapi
+
+    spec:
+      containers:
+      - name: loginapi
+
+        image: loginapi:latest
+
+        imagePullPolicy: Never
+
+        ports:
+        - containerPort: 5000
+
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+
+        - name: ASPNETCORE_URLS
+          value: "http://+:5000"
+
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
